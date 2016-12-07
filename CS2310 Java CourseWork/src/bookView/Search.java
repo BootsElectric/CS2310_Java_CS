@@ -1,6 +1,5 @@
 package bookView;
 
-<<<<<<< HEAD
 import java.util.Scanner;
 import java.nio.charset.StandardCharsets;
 import java.io.BufferedReader;
@@ -9,18 +8,21 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
-=======
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
->>>>>>> master
+
 import java.io.IOException;
 
 public class Search {
 
-	double count = 0, countBuffer = 0, countLine = 0;
-	String lineNumber = "";
-	String filePath = "C:\\Users\\Will\\workspace\\CS2310 Java CourseWork\\data\\emmaEd11.txt";
+	int countNum = 0;
+	int countBuffer = 0;
+	int countLine = 0;
+	int lineNum = 0;
+
+	String filePath = "\\Users\\RCHAN\\Documents\\Assignment\\2016-2017\\CS2310 - Data Str&Alg Java\\CS2310_Java_CS\\CS2310 Java CourseWork\\dataemmaEd11.txt";
 	BufferedReader br;
 	String line = "";
 
@@ -30,35 +32,29 @@ public class Search {
 			try {
 				while ((line = br.readLine()) != null) {
 					countLine++;
-					// System.out.println(line);
 					String[] words = line.split(" ");
 
 					for (String word : words) {
 						if (word.equals(inputSearch)) {
-							count++;
+							countNum++;
 							countBuffer++;
 						}
 					}
-
 					if (countBuffer > 0) {
 						countBuffer = 0;
-						lineNumber += countLine + ",";
+						lineNum += countLine;
 					}
-
 				}
 				br.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		System.out.println("Times found at--" + count);
-		System.out.println("Word found at--" + lineNumber);
+		System.out.println("Found" + countNum + "Times");
+		System.out.println("Found on" + lineNum + "Line");
 		return "";
 	}
-
 }
