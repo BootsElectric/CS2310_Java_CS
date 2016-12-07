@@ -1,5 +1,6 @@
 package bookView;
 
+<<<<<<< HEAD
 import java.util.Scanner;
 import java.nio.charset.StandardCharsets;
 import java.io.BufferedReader;
@@ -8,6 +9,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+=======
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+>>>>>>> master
 import java.io.IOException;
 
 public class Search {
