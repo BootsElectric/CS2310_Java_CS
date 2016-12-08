@@ -1,17 +1,23 @@
 package bookView;
 
 public class ControllerManager implements Controller {
-
+	
+	private Search search;
+	
+	public ControllerManager(){
+		search = new Search();
+	}
+	
 	@Override
 	public String getKWIC(String word) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return search.search(word);
 	}
 
 	@Override
 	public String getKWIC(String word, int contextSize) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return search.search(word, contextSize);
 	}
 
 	@Override

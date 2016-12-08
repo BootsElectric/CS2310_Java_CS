@@ -9,9 +9,13 @@ public class Search {
 
 	double count = 0, countBuffer = 0, countLine = 0;
 	String lineNumber = "";
-	String filePath = "C:\\Users\\Will\\workspace\\CS2310 Java CourseWork\\data\\emmaEd11.txt";
+	String filePath = "C:\\Users\\Will\\Documents\\GitHub\\CS2310 Java CourseWork\\data\\emmaEd11.txt";
 	BufferedReader br;
 	String line = "";
+	
+	public String search(String inputSearch, int contextSize){
+		return null;
+	}
 
 	public String search(String inputSearch) {
 		try {
