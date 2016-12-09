@@ -7,19 +7,24 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Map;
 
 public class BookIndexer {
 	/**
 	 * Hashtables pairing words with WordCoordinates.
 	 **/
-	private Hashtable<String, ArrayList<WordCoordinate>> emmaWordIndex;
-	private Hashtable<String, ArrayList<WordCoordinate>> pandPWordIndex;
-	private Hashtable<String, ArrayList<WordCoordinate>> mansfieldParkWordIndex;
+	private Map<String, ArrayList<WordCoordinate>> emmaWordIndex;
+	private Map<String, ArrayList<WordCoordinate>> pandPWordIndex;
+	private Map<String, ArrayList<WordCoordinate>> mansfieldParkWordIndex;
 	
-	private Hashtable<Integer, String> emmaIDIndex;
-	private Hashtable<Integer, String> pandpIDIndex;
-	private Hashtable<Integer, String> mansfieldParkIDIndex;
+	/**
+	 * Hashtables pairing word ID with words.
+	 **/
+	private Map<Integer, String> emmaIDIndex;
+	private Map<Integer, String> pandpIDIndex;
+	private Map<Integer, String> mansfieldParkIDIndex;
 	
 	/**
 	 * The current line the BufferReader of index();
@@ -35,13 +40,13 @@ public class BookIndexer {
 	private File mansfieldPark = new File("data\\mansfieldParkEd10.txt");
 	
 	/**
-	 *Constructor initialises the word indexes to be the indexed files.
+	 *Constructor initialises the word indexes and id indexes to be the indexed files.
 	 **/
 	public BookIndexer(){
 		try{
-		Hashtable[] emmaHashtables = index(emma);
-		Hashtable[] pandpHashtables = index(pandp);
-		Hashtable[] mansfieldParkHashtables = index(mansfieldPark);
+			Map[] emmaHashtables = index(emma);
+			Map[] pandpHashtables = index(pandp);
+			Map[] mansfieldParkHashtables = index(mansfieldPark);
 		
 		emmaWordIndex = emmaHashtables[0];
 		pandPWordIndex = pandpHashtables[0];
@@ -55,36 +60,39 @@ public class BookIndexer {
 			e.printStackTrace();
 		}
 	}
-
-	public Hashtable<String, ArrayList<WordCoordinate>> getEmmaIndex(){
+	
+	/**
+	 * @return emmaWordIndex
+	 **/
+	public Map<String, ArrayList<WordCoordinate>> getEmmaIndex(){
 		return emmaWordIndex;
 	}
 	
-	public Hashtable<String, ArrayList<WordCoordinate>> getPandPIndex(){
+	public Map<String, ArrayList<WordCoordinate>> getPandPIndex(){
 		return pandPWordIndex;
 	}
 	
-	public Hashtable<String, ArrayList<WordCoordinate>> getMansfieldParkIndex(){
+	public Map<String, ArrayList<WordCoordinate>> getMansfieldParkIndex(){
 		return mansfieldParkWordIndex;
 	}
 	
-	public Hashtable<Integer, String> getEmmaIDIndex(){
+	public Map<Integer, String> getEmmaIDIndex(){
 		return emmaIDIndex;
 	}
 	
-	public Hashtable<Integer, String> getPandPIDIndex(){
+	public Map<Integer, String> getPandPIDIndex(){
 		return pandpIDIndex;
 	}
 	
-	public Hashtable<Integer, String> getMansfiledParkIDIndex(){
+	public Map<Integer, String> getMansfiledParkIDIndex(){
 		return mansfieldParkIDIndex;
 	}
 
-	public Hashtable[] index(File file){
+	public Map[] index(File file){
 		
-		Hashtable[] hashtables = new Hashtable[2];
-		Hashtable<String, ArrayList<WordCoordinate>> wordIndex = new Hashtable<>();
-		Hashtable<Integer, String> IDIndex = new Hashtable<>();
+		Map[] hashtables = new HashMap[2];
+		Map<String, ArrayList<WordCoordinate>> wordIndex = new HashMap<>();
+		Map<Integer, String> IDIndex = new HashMap<>();
 		hashtables[0] = wordIndex;
 		hashtables[1] = IDIndex;
 		
@@ -100,28 +108,32 @@ public class BookIndexer {
 				int wordNumber = 0;
 
 				String[] currentLineWords = line.split(" ");
+				
 				while (wordNumber < currentLineWords.length){
-					if(!wordIndex.containsKey(currentLineWords[wordNumber])){
-						wordIndex.put(currentLineWords[wordNumber], new ArrayList<WordCoordinate> ());
-					}
-					
+
 					if (currentLineWords[wordNumber].equals("")){
 						paragraphNumber++;
-						
-					}
-					if (currentLineWords[wordNumber].equals("CHAPTER")){
-						chapterNumber++;
-						paragraphNumber = 1;
-					}
-					if (currentLineWords[wordNumber].equals("VOLUME")){
-						volumeNumber++;
-					}
+					}else{
+						if(!wordIndex.containsKey(currentLineWords[wordNumber])){
+							wordIndex.put(currentLineWords[wordNumber], new ArrayList<WordCoordinate> ());
+						}
 
-					wordIndex.get(currentLineWords[wordNumber]).add(
-							new WordCoordinate(wordID, wordNumber, lineNumber, paragraphNumber, chapterNumber, volumeNumber, file));
-					IDIndex.put(wordID, currentLineWords[wordNumber]);
+
+						if (currentLineWords[wordNumber].equals("CHAPTER")){
+							chapterNumber++;
+							paragraphNumber = 1;
+						}
+						if (currentLineWords[wordNumber].equals("VOLUME")){
+							volumeNumber++;
+						}
+
+						wordIndex.get(currentLineWords[wordNumber]).add(
+								new WordCoordinate(wordID, wordNumber, lineNumber, paragraphNumber, chapterNumber, volumeNumber, file));
+						IDIndex.put(wordID, currentLineWords[wordNumber]);
+						wordID++;
+					}
 					wordNumber++;
-					wordID++;
+					
 				}
 				lineNumber++;
 			}
