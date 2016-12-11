@@ -27,7 +27,7 @@ public class Search {
 	BufferedReader br;
 	String line = "";
 
-	public String search(String inputSearch) {
+	public String search(String inputSearch, int contextSize) {
 		try {
 			br = new BufferedReader(new FileReader(filePath));
 			try {
@@ -56,31 +56,26 @@ public class Search {
 		
 ////////////////////////////////////////////
 		
-//		HashMap<String, String> wordSearch = new HashMap<String, String>();
-//
-//        System.out.println(wordSearch);
-//        if(wordSearch.containsValue("")){
-//            System.out.println("Found Word At:");
-//       } else {
-//            System.out.println("Word Not Found!");
-//        }
-//    }
 		
 		public String findWord(String keyWord) {
 			
 			// Find the keyword in hash
-			String findWord = keyWord;
+			int wordID = hashtables[1];
+			
+			while(hashtables[wordID] =! "-1"){
 				
-				if (Map[findWord] == keyWord) {
+				if(hashtables[wordID] == keyWord){
 					
 					// Found the word so return it
-					System.out.println(keyWord + " was found " + findWord);
+					System.out.println(keyWord + "was found!");
 					
-					return Map[findWord];
+					return hashtables[wordID];
 				}
 				// Look in the next word
-				++findWord;
-			
+				++wordID;
+				
+				wordID %= arraysize;
+			}
 			// Could not find word so
 			return null;
 		}
