@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -52,6 +53,39 @@ public class Search {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+		
+////////////////////////////////////////////
+		
+//		HashMap<String, String> wordSearch = new HashMap<String, String>();
+//
+//        System.out.println(wordSearch);
+//        if(wordSearch.containsValue("")){
+//            System.out.println("Found Word At:");
+//       } else {
+//            System.out.println("Word Not Found!");
+//        }
+//    }
+		
+		public String findWord(String keyWord) {
+			
+			// Find the keyword in hash
+			String findWord = keyWord;
+				
+				if (Map[findWord] == keyWord) {
+					
+					// Found the word so return it
+					System.out.println(keyWord + " was found " + findWord);
+					
+					return Map[findWord];
+				}
+				// Look in the next word
+				++findWord;
+			
+			// Could not find word so
+			return null;
+		}
+		
+////////////////////////////////////////////		
 
 		System.out.println("Found" + countNum + "Times");
 		System.out.println("Found on" + lineNum + "Line");
