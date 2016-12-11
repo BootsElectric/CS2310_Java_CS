@@ -11,37 +11,59 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 
+/**
+ * Indexes Books for faster searching.
+ * @author Will
+ *
+ */
 public class BookIndexer {
+	
 	/**
-	 * Hashtables pairing words with WordCoordinates.
-	 **/
+	 * Map pairing the words of Emma with WordCoordinates.
+	 */
 	private Map<String, ArrayList<WordCoordinate>> emmaWordIndex;
+	
+	/**
+	 * Map pairing the words of Pride And Prejudice with WordCoordinates.
+	 */
 	private Map<String, ArrayList<WordCoordinate>> pandPWordIndex;
+	
+	/**
+	 * Map pairing the words of Mansfield Park with WordCoordinates.
+	 */
 	private Map<String, ArrayList<WordCoordinate>> mansfieldParkWordIndex;
 	
 	/**
-	 * Hashtables pairing word ID with words.
-	 **/
+	 * Maps pairing word ID with the words from Emma.
+	 */
 	private Map<Integer, String> emmaIDIndex;
+	
+	/**
+	 * Maps pairing word ID with the words from Pride And Prejudice.
+	 */
 	private Map<Integer, String> pandpIDIndex;
+	
+	/**
+	 * Maps pairing word ID with the words from Mansfield Park.
+	 */
 	private Map<Integer, String> mansfieldParkIDIndex;
 	
 	/**
 	 * The current line the BufferReader of index();
-	 * <see>BookIndexer.index()</see> 
-	 **/
+	 * @see {@link bookView.BookIndexer.index(File)}
+	 */
 	private String line = "";
 	
 	/**
-	 * Files holding the books so that relative path can be used. 
-	 **/
+	 * Files holding the books so that relative path can be used.
+	 */
 	private File emma = new File("data\\emmaEd11.txt");
 	private File pandp = new File("data\\pandpEd12.txt");
 	private File mansfieldPark = new File("data\\mansfieldParkEd10.txt");
 	
 	/**
-	 *Constructor initialises the word indexes and id indexes to be the indexed files.
-	 **/
+	 * Constructor initialises the word indexes and id indexes to be the indexed files.
+	 */
 	public BookIndexer(){
 		try{
 			Map[] emmaHashtables = index(emma);
@@ -63,38 +85,61 @@ public class BookIndexer {
 	
 	/**
 	 * @return emmaWordIndex
-	 **/
+	 */
 	public Map<String, ArrayList<WordCoordinate>> getEmmaIndex(){
 		return emmaWordIndex;
 	}
 	
+	/**
+	 * @return pandPWordIndex
+	 */
 	public Map<String, ArrayList<WordCoordinate>> getPandPIndex(){
 		return pandPWordIndex;
 	}
 	
+	/**
+	 * @return mansfieldParkWordIndex
+	 */
 	public Map<String, ArrayList<WordCoordinate>> getMansfieldParkIndex(){
 		return mansfieldParkWordIndex;
 	}
 	
+	/**
+	 * @return emmaIDIndex
+	 */
 	public Map<Integer, String> getEmmaIDIndex(){
 		return emmaIDIndex;
 	}
 	
+	/**
+	 * @return pandpIDIndex
+	 */
 	public Map<Integer, String> getPandPIDIndex(){
 		return pandpIDIndex;
 	}
 	
+	/**
+	 * @return mansfieldParkIDIndex
+	 */
 	public Map<Integer, String> getMansfiledParkIDIndex(){
 		return mansfieldParkIDIndex;
 	}
-
+	
+	/**
+	 * Indexes files to two Maps. First words to WordCoordinates then wordIDs to words.
+	 * <p>
+	 * Returns and array of Maps untyped because the method returns two HashMaps of different types.
+	 * </p>
+	 * @param file - The file to index
+	 * @return An array of Map objects containing two HashMaps
+	 */
 	public Map[] index(File file){
 		
-		Map[] hashtables = new HashMap[2];
+		Map[] hashMaps = new HashMap[2];
 		Map<String, ArrayList<WordCoordinate>> wordIndex = new HashMap<>();
 		Map<Integer, String> IDIndex = new HashMap<>();
-		hashtables[0] = wordIndex;
-		hashtables[1] = IDIndex;
+		hashMaps[0] = wordIndex;
+		hashMaps[1] = IDIndex;
 		
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(file.getAbsolutePath()));
@@ -143,9 +188,16 @@ public class BookIndexer {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return hashtables;
+		return hashMaps;
 	}
-	
+/*******************************************************************************************************************************************
+ * Inner Class -- WordCoordinate
+ * <p>
+ * This class holds all of the required information to find the wider context of a word.
+ * </p>
+ * @author Will
+ *
+ *******************************************************************************************************************************************/
 	public class WordCoordinate{
 		int ID;
 		int lineNumber;
@@ -155,6 +207,16 @@ public class BookIndexer {
 		int volume;
 		File title;
 		
+		/**
+		 * Constructs a new WordCoordinate 
+		 * @param ID - the position of the word in the text it originates from
+		 * @param wNum - the position of the word in the line its on
+		 * @param lNum - the line the word is on
+		 * @param pNum - the paragraph the word is in
+		 * @param chapter - the chapter the word is in
+		 * @param volume - the volume the word is in
+		 * @param title - the File the word is from -- used to get the name of the file for toString()
+		 */
 		public WordCoordinate(int ID, int wNum, int lNum, int pNum, int chapter, int volume, File title){
 			this.ID = ID;
 			wordNumber = wNum;
@@ -193,6 +255,18 @@ public class BookIndexer {
 			return title.getName();
 		}
 		
+		/**
+		 * Returns a string formatted thusly:
+		 * <ul>
+		 * 	<li>Title: {@value title}</li>
+		 * 	<li>Volume: {@value volume}</li>
+		 * 	<li>Chapter: {@value chapter}</li>
+		 * 	<li>Paragraph: {@value paragraphNumber}</li>
+		 * 	<li>Line: {@value lineNumber} at: {@value wordNumber}</li>
+		 * 	<li>Word ID: {@value ID}</li>
+		 * </ul>
+		 * @return - the String representation of this WordCoordinate
+		 */
 		public String toString(){
 			StringBuffer sb = new StringBuffer();
 			
@@ -217,4 +291,7 @@ public class BookIndexer {
 			return sb.toString();
 		}
 	}
+/*******************************************************************************************************************************************
+* End of Inner Class -- WordCoordinte
+********************************************************************************************************************************************/
 }
