@@ -70,11 +70,11 @@ public class Search {
 	
 	public String getWiderContext(String kwicID){
 		
-		if(widerContextSearchMap.containsKey(kwicID)){
-			return widerContextSearchMap.get(Integer.parseInt(kwicID)).toString();
-		}else{
-			return "\nThe ID: "+ kwicID +" doesn't exist in this context.";
-		}
+			if(widerContextSearchMap.containsKey(Integer.parseInt(kwicID))){
+				return widerContextSearchMap.get(Integer.parseInt(kwicID)).toString();
+			}else{
+				return "\nThe ID: "+ kwicID +" doesn't exist in this context.";
+			}
 	}
 
 }
