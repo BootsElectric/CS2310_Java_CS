@@ -68,9 +68,9 @@ public class BookIndexer {
 	 */
 	public BookIndexer(){
 		try{
-			Map[] emmaHashtables = index(emma, wordCount);
-			Map[] pandpHashtables = index(pandp, wordCount);
-			Map[] mansfieldParkHashtables = index(mansfieldPark, wordCount);
+			Map[] emmaHashtables = index(emma);
+			Map[] pandpHashtables = index(pandp);
+			Map[] mansfieldParkHashtables = index(mansfieldPark);
 		
 		emmaWordIndex = emmaHashtables[0];
 		pandPWordIndex = pandpHashtables[0];
@@ -135,7 +135,7 @@ public class BookIndexer {
 	 * @param file - The file to index
 	 * @return An array of Map objects containing two HashMaps
 	 */
-	public Map[] index(File file, int wordCount){
+	public Map[] index(File file){
 		
 		Map[] hashMaps = new HashMap[2];
 		Map<String, ArrayList<WordCoordinate>> wordIndex = new HashMap<>();

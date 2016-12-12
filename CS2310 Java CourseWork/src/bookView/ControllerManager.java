@@ -24,8 +24,8 @@ public class ControllerManager implements Controller {
 
 	@Override
 	public String getWiderContext(String kwicID) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return search.getWiderContext(kwicID);
 	}
 
 }
