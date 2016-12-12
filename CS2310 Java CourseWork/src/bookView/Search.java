@@ -50,7 +50,7 @@ public class Search {
 
 				sb.append("ID ");
 				sb.append(kwicID);
-				sb.append(": ");
+				sb.append(":\t");
 				for(int i = wordID -contextSize; i <= wordID + contextSize; i++){
 					String word = allWords.get(i);
 					sb.append(word);
@@ -70,7 +70,11 @@ public class Search {
 	
 	public String getWiderContext(String kwicID){
 		
-		return widerContextSearchMap.get(Integer.parseInt(kwicID)).toString();
+		if(widerContextSearchMap.containsKey(kwicID)){
+			return widerContextSearchMap.get(Integer.parseInt(kwicID)).toString();
+		}else{
+			return "\nThe ID: "+ kwicID +" doesn't exist in this context.";
+		}
 	}
 
 }
