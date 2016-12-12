@@ -3,8 +3,10 @@ package bookView;
 public class ControllerManager implements Controller {
 	
 	private Search search;
+	private BookIndexer bookIndexer;
 	
 	public ControllerManager(){
+		bookIndexer = new BookIndexer();
 		search = new Search();
 	}
 	
@@ -22,8 +24,8 @@ public class ControllerManager implements Controller {
 
 	@Override
 	public String getWiderContext(String kwicID) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return search.getWiderContext(kwicID);
 	}
 
 }

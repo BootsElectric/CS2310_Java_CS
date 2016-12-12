@@ -26,7 +26,7 @@ public class BookIndexer {
 	/**
 	 * Map pairing the words of Pride And Prejudice with WordCoordinates.
 	 */
-	private Map<String, ArrayList<WordCoordinate>> pandPWordIndex;
+	private Map<String, ArrayList<WordCoordinate>> pAndPWordIndex;
 	
 	/**
 	 * Map pairing the words of Mansfield Park with WordCoordinates.
@@ -41,7 +41,7 @@ public class BookIndexer {
 	/**
 	 * Maps pairing word ID with the words from Pride And Prejudice.
 	 */
-	private Map<Integer, String> pandpIDIndex;
+	private Map<Integer, String> pAndPIDIndex;
 	
 	/**
 	 * Maps pairing word ID with the words from Mansfield Park.
@@ -54,33 +54,26 @@ public class BookIndexer {
 	 */
 	private String line = "";
 	
+	private int wordCount = 0;
+	
 	/**
 	 * Files holding the books so that relative path can be used.
 	 */
-	private File emma = new File("data\\emmaEd11.txt");
-	private File pandp = new File("data\\pandpEd12.txt");
-	private File mansfieldPark = new File("data\\mansfieldParkEd10.txt");
+	private File emma = new File("data/emmaEd11.txt");
+	private File pandp = new File("data/pandpEd12.txt");
+	private File mansfieldPark = new File("data/mansfieldParkEd10.txt");
 	
 	/**
 	 * Constructor initialises the word indexes and id indexes to be the indexed files.
 	 */
 	public BookIndexer(){
-		try{
-			Map[] emmaHashtables = index(emma);
-			Map[] pandpHashtables = index(pandp);
-			Map[] mansfieldParkHashtables = index(mansfieldPark);
-		
-		emmaWordIndex = emmaHashtables[0];
-		pandPWordIndex = pandpHashtables[0];
-		mansfieldParkWordIndex = mansfieldParkHashtables[0];
-		
-		emmaIDIndex = emmaHashtables[1];
-		pandpIDIndex = pandpHashtables[1];
-		mansfieldParkIDIndex = mansfieldParkHashtables[1];
-		}catch(Exception e){
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-		}
+		emmaWordIndex = index(emma);
+		pAndPWordIndex = index(pandp);
+		mansfieldParkWordIndex = index(mansfieldPark);
+		wordCount = 0;
+		emmaIDIndex = indexID(emma);
+		pAndPIDIndex = indexID(pandp);
+		mansfieldParkIDIndex = indexID(mansfieldPark);
 	}
 	
 	/**
@@ -94,7 +87,7 @@ public class BookIndexer {
 	 * @return pandPWordIndex
 	 */
 	public Map<String, ArrayList<WordCoordinate>> getPandPIndex(){
-		return pandPWordIndex;
+		return pAndPWordIndex;
 	}
 	
 	/**
@@ -115,7 +108,7 @@ public class BookIndexer {
 	 * @return pandpIDIndex
 	 */
 	public Map<Integer, String> getPandPIDIndex(){
-		return pandpIDIndex;
+		return pAndPIDIndex;
 	}
 	
 	/**
@@ -133,27 +126,23 @@ public class BookIndexer {
 	 * @param file - The file to index
 	 * @return An array of Map objects containing two HashMaps
 	 */
-	public Map[] index(File file){
-		
-		Map[] hashMaps = new HashMap[2];
+	public Map<String, ArrayList<WordCoordinate>> index(File file){
+
 		Map<String, ArrayList<WordCoordinate>> wordIndex = new HashMap<>();
-		Map<Integer, String> IDIndex = new HashMap<>();
-		hashMaps[0] = wordIndex;
-		hashMaps[1] = IDIndex;
-		
+
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(file.getAbsolutePath()));
 			int lineNumber = 0;
 			int chapterNumber = 0;
 			int paragraphNumber = 1;
 			int volumeNumber = 0;
-			int wordID = 0;
+			int wordID = wordCount;
 			while((line = br.readLine()) != null){
-				
+
 				int wordNumber = 0;
 
 				String[] currentLineWords = line.split(" ");
-				
+
 				while (wordNumber < currentLineWords.length){
 
 					if (currentLineWords[wordNumber].equals("")){
@@ -174,21 +163,54 @@ public class BookIndexer {
 
 						wordIndex.get(currentLineWords[wordNumber]).add(
 								new WordCoordinate(wordID, wordNumber, lineNumber, paragraphNumber, chapterNumber, volumeNumber, file));
-						IDIndex.put(wordID, currentLineWords[wordNumber]);
 						wordID++;
+						wordCount++;
 					}
 					wordNumber++;
-					
+
 				}
 				lineNumber++;
 			}
-
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return hashMaps;
+		return wordIndex;
+	}
+	
+	private Map<Integer, String> indexID(File file){
+		Map<Integer, String> IDIndex = new HashMap<>();
+
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(file.getAbsolutePath()));
+			int lineNumber = 0;
+			int paragraphNumber = 1;
+			while((line = br.readLine()) != null){
+
+				int wordNumber = 0;
+
+				String[] currentLineWords = line.split(" ");
+
+				while (wordNumber < currentLineWords.length){
+
+					if (currentLineWords[wordNumber].equals("")){
+						paragraphNumber++;
+					}else{
+						IDIndex.put(wordCount, currentLineWords[wordNumber]);
+						wordCount++;
+					}
+					wordNumber++;
+
+				}
+				lineNumber++;
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return IDIndex;
 	}
 /*******************************************************************************************************************************************
  * Inner Class -- WordCoordinate
@@ -199,13 +221,13 @@ public class BookIndexer {
  *
  *******************************************************************************************************************************************/
 	public class WordCoordinate{
-		int ID;
-		int lineNumber;
-		int wordNumber;
-		int paragraphNumber;
-		int chapter;
-		int volume;
-		File title;
+		private int ID;
+		private int lineNumber;
+		private int wordNumber;
+		private int paragraphNumber;
+		private int chapter;
+		private int volume;
+		private File title;
 		
 		/**
 		 * Constructs a new WordCoordinate 
