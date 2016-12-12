@@ -1,7 +1,12 @@
 package bookView;
 
 import java.util.Scanner;
+
+import bookView.BookIndexer.WordCoordinate;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.nio.charset.StandardCharsets;
 import java.io.BufferedReader;
 import java.io.File;
@@ -22,15 +27,27 @@ public class Search {
 		
 		BookIndexer bi;
 		bi = new BookIndexer();
-		BookIndexer.get(emmaHashtables);
+		Map<String, ArrayList<WordCoordinate>> emma = bi.getEmmaIndex();
+		Map<Integer, String> emmaID = bi.getEmmaIDIndex();
 		
-		if(emmaHashtables.containsValue(string)){
+		ArrayList<WordCoordinate> aList = emma.get(string);
+			
+			if(!aList.isEmpty()){
+				for(WordCoordinate w : emma.get(string)){
+				int stringID = w.getID();
+				
+				}
+			}else{
+				return "List is Empty";
+			}
+		
+		
+		if(emma.containsKey(string)){
             System.out.println("Found" + string);
         } else {
             System.out.println("Word Not Found");
         }
-		
-		
+
 		return string;
 		
 	}
