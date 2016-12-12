@@ -1,6 +1,5 @@
 package bookView;
 
-<<<<<<< HEAD
 import java.util.Scanner;
 
 import bookView.BookIndexer.WordCoordinate;
@@ -22,67 +21,91 @@ import java.io.IOException;
 
 public class Search {
 	
-	//////////////////////////////////////////////////////////////////////////
+	private BookIndexer bi;
+	private Map<Integer, WordCoordinate> WIC;
+	
+	public Search(BookIndexer bi){
+		
+		this.bi=bi;
+		WIC = new HashMap<>();
+		
+	}
 
 	public String search(String string) {
+
+		return search(string, 10);
+	}
+
+	public String search(String string, int contextSize) {
 		
-		BookIndexer bi;
-		bi = new BookIndexer();
+		BookIndexer bi = new BookIndexer();
+		StringBuffer sb = new StringBuffer();
+
 		Map<String, ArrayList<WordCoordinate>> emma = bi.getEmmaIndex();
+		Map<String, ArrayList<WordCoordinate>> pandp = bi.getPandPIndex();
+		Map<String, ArrayList<WordCoordinate>> mansfieldPark = bi.getMansfieldParkIndex();
+		
 		Map<Integer, String> emmaID = bi.getEmmaIDIndex();
+		Map<Integer, String> pandpID = bi.getPandPIDIndex();
+		Map<Integer, String> mansfieldParkID = bi.getMansfiledParkIDIndex();
+
+		ArrayList<WordCoordinate> contexts = new ArrayList<>();
+		Map<Integer, String> kwicIDs = new HashMap<>();
 		
-		ArrayList<WordCoordinate> aList = emma.get(string);
+		if(emma.get(string) != null){
+			contexts.addAll(emma.get(string));
+		}
+		if(pandp.get(string) != null){
+			contexts.addAll(pandp.get(string));
+		}
+		if(mansfieldPark.get(string) != null){
+			contexts.addAll(mansfieldPark.get(string));
+		}
+		
+		kwicIDs.putAll(emmaID);
+		kwicIDs.putAll(pandpID);
+		kwicIDs.putAll(mansfieldParkID);
+		
+		WIC = new HashMap<>();
+
+		if(!contexts.equals(null)){
 			
-			if(!aList.isEmpty()){
-				for(WordCoordinate w : emma.get(string)){
+			for(WordCoordinate w : contexts){
 				int stringID = w.getID();
+				int kwicID = contexts.indexOf(w);
+				sb.append(kwicID);
+				sb.append(":\t");
+				WIC.put(kwicID, w);
 				
+				for(int i = stringID-contextSize; i<stringID+(contextSize+1); i++){
+					if(emmaID.get(i) != null){
+					sb.append(emmaID.get(i));
+					sb.append(" ");
+					}
 				}
-			}else{
-				return "List is Empty";
+				sb.append("\n");
+				
 			}
+		}else{
+			
+			return "List is Empty";
+			
+		}
 		
+		return sb.toString();
 		
-		if(emma.containsKey(string)){
-            System.out.println("Found" + string);
-        } else {
-            System.out.println("Word Not Found");
-        }
-
-		return string;
-		
-=======
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import bookView.BookIndexer.WordCoordinate;
-
-public class Search {
-	
-	public String search(String inputSearch){
-		
-		return "";
 	}
-	
-	public String search(String inputSearch, int contextSize){
-		
-		return "";
-	}
-	
 	
 	public String getWiderContext(String kwicID){
-		
-		return "";
->>>>>>> master
+
+		if(WIC.containsKey(Integer.parseInt(kwicID))){
+			return WIC.get(Integer.parseInt(kwicID)).toString();
+			
+		}else{
+			
+			return "User Input Error!!!";
+			
+		}
 	}
-	
-	//////////////////////////////////////////////////////////////////////////
-	
-	public String search(String word, int contextSize) {
-		return null;
-	}
-	
-	//////////////////////////////////////////////////////////////////////////
-	
+
 }

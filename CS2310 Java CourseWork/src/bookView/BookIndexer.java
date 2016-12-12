@@ -11,21 +11,6 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 
-<<<<<<< HEAD
-public class BookIndexer {
-	/**
-	 * Hashtables pairing words with WordCoordinates.
-	 **/
-	private Map<String, ArrayList<WordCoordinate>> emmaWordIndex;
-	private Map<String, ArrayList<WordCoordinate>> pandPWordIndex;
-	private Map<String, ArrayList<WordCoordinate>> mansfieldParkWordIndex;
-	
-	/**
-	 * Hashtables pairing word ID with words.
-	 **/
-	private Map<Integer, String> emmaIDIndex;
-	private Map<Integer, String> pandpIDIndex;
-=======
 /**
  * Indexes Books for faster searching.
  * @author Will
@@ -61,44 +46,12 @@ public class BookIndexer {
 	/**
 	 * Maps pairing word ID with the words from Mansfield Park.
 	 */
->>>>>>> master
+
 	private Map<Integer, String> mansfieldParkIDIndex;
 	
 	/**
 	 * The current line the BufferReader of index();
-<<<<<<< HEAD
-	 * <see>BookIndexer.index()</see> 
-	 **/
-	private String line = "";
-	
-	/**
-	 * Files holding the books so that relative path can be used. 
-	 **/
-	private File emma = new File("data\\emmaEd11.txt");
-	private File pandp = new File("data\\pandpEd12.txt");
-	private File mansfieldPark = new File("data\\mansfieldParkEd10.txt");
-	
-	/**
-	 *Constructor initialises the word indexes and id indexes to be the indexed files.
-	 **/
-	public BookIndexer(){
-		try{
-			Map[] emmaHashtables = index(emma);
-			Map[] pandpHashtables = index(pandp);
-			Map[] mansfieldParkHashtables = index(mansfieldPark);
-		
-		emmaWordIndex = emmaHashtables[0];
-		pandPWordIndex = pandpHashtables[0];
-		mansfieldParkWordIndex = mansfieldParkHashtables[0];
-		
-		emmaIDIndex = emmaHashtables[1];
-		pandpIDIndex = pandpHashtables[1];
-		mansfieldParkIDIndex = mansfieldParkHashtables[1];
-		}catch(Exception e){
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-		}
-=======
+
 	 * @see {@link bookView.BookIndexer.index(File)}
 	 */
 	private String line = "";
@@ -123,26 +76,17 @@ public class BookIndexer {
 		emmaIDIndex = indexID(emma);
 		pAndPIDIndex = indexID(pandp);
 		mansfieldParkIDIndex = indexID(mansfieldPark);
->>>>>>> master
+		
 	}
 	
 	/**
 	 * @return emmaWordIndex
-<<<<<<< HEAD
-	 **/
-=======
 	 */
->>>>>>> master
+
 	public Map<String, ArrayList<WordCoordinate>> getEmmaIndex(){
 		return emmaWordIndex;
 	}
 	
-<<<<<<< HEAD
-	public Map<String, ArrayList<WordCoordinate>> getPandPIndex(){
-		return pandPWordIndex;
-	}
-	
-=======
 	/**
 	 * @return pandPWordIndex
 	 */
@@ -153,39 +97,18 @@ public class BookIndexer {
 	/**
 	 * @return mansfieldParkWordIndex
 	 */
->>>>>>> master
+
 	public Map<String, ArrayList<WordCoordinate>> getMansfieldParkIndex(){
 		return mansfieldParkWordIndex;
 	}
 	
-<<<<<<< HEAD
-=======
 	/**
 	 * @return emmaIDIndex
 	 */
->>>>>>> master
 	public Map<Integer, String> getEmmaIDIndex(){
 		return emmaIDIndex;
 	}
-	
-<<<<<<< HEAD
-	public Map<Integer, String> getPandPIDIndex(){
-		return pandpIDIndex;
-	}
-	
-	public Map<Integer, String> getMansfiledParkIDIndex(){
-		return mansfieldParkIDIndex;
-	}
 
-	public Map[] index(File file){
-		
-		Map[] hashtables = new HashMap[2];
-		Map<String, ArrayList<WordCoordinate>> wordIndex = new HashMap<>();
-		Map<Integer, String> IDIndex = new HashMap<>();
-		hashtables[0] = wordIndex;
-		hashtables[1] = IDIndex;
-		
-=======
 	/**
 	 * @return pandpIDIndex
 	 */
@@ -212,22 +135,13 @@ public class BookIndexer {
 
 		Map<String, ArrayList<WordCoordinate>> wordIndex = new HashMap<>();
 
->>>>>>> master
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(file.getAbsolutePath()));
 			int lineNumber = 0;
 			int chapterNumber = 0;
 			int paragraphNumber = 1;
 			int volumeNumber = 0;
-<<<<<<< HEAD
-			int wordID = 0;
-			while((line = br.readLine()) != null){
-				
-				int wordNumber = 0;
 
-				String[] currentLineWords = line.split(" ");
-				
-=======
 			int wordID = wordCount;
 			while((line = br.readLine()) != null){
 
@@ -235,7 +149,6 @@ public class BookIndexer {
 
 				String[] currentLineWords = line.split(" ");
 
->>>>>>> master
 				while (wordNumber < currentLineWords.length){
 
 					if (currentLineWords[wordNumber].equals("")){
@@ -256,17 +169,7 @@ public class BookIndexer {
 
 						wordIndex.get(currentLineWords[wordNumber]).add(
 								new WordCoordinate(wordID, wordNumber, lineNumber, paragraphNumber, chapterNumber, volumeNumber, file));
-<<<<<<< HEAD
-						IDIndex.put(wordID, currentLineWords[wordNumber]);
-						wordID++;
-					}
-					wordNumber++;
-					
-				}
-				lineNumber++;
-			}
 
-=======
 						wordID++;
 						wordCount++;
 					}
@@ -275,26 +178,13 @@ public class BookIndexer {
 				}
 				lineNumber++;
 			}
->>>>>>> master
+
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-<<<<<<< HEAD
-		return hashtables;
-	}
-	
-	public class WordCoordinate{
-		int ID;
-		int lineNumber;
-		int wordNumber;
-		int paragraphNumber;
-		int chapter;
-		int volume;
-		File title;
-		
-=======
+
 		return wordIndex;
 	}
 	
@@ -358,7 +248,6 @@ public class BookIndexer {
 		 * @param volume - the volume the word is in
 		 * @param title - the File the word is from -- used to get the name of the file for toString()
 		 */
->>>>>>> master
 		public WordCoordinate(int ID, int wNum, int lNum, int pNum, int chapter, int volume, File title){
 			this.ID = ID;
 			wordNumber = wNum;
@@ -397,8 +286,6 @@ public class BookIndexer {
 			return title.getName();
 		}
 		
-<<<<<<< HEAD
-=======
 		/**
 		 * Returns a string formatted thusly:
 		 * <ul>
@@ -411,7 +298,6 @@ public class BookIndexer {
 		 * </ul>
 		 * @return - the String representation of this WordCoordinate
 		 */
->>>>>>> master
 		public String toString(){
 			StringBuffer sb = new StringBuffer();
 			
@@ -436,10 +322,8 @@ public class BookIndexer {
 			return sb.toString();
 		}
 	}
-<<<<<<< HEAD
-=======
+
 /*******************************************************************************************************************************************
-* End of Inner Class -- WordCoordinte
+* End of Inner Class -- WordCoordinte 
 ********************************************************************************************************************************************/
->>>>>>> master
 }
