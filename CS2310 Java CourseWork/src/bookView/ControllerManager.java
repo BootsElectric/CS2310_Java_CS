@@ -7,7 +7,7 @@ public class ControllerManager implements Controller {
 	
 	public ControllerManager(){
 		bookIndexer = new BookIndexer();
-		search = new Search(bookIndexer);
+		search = new Search();
 	}
 	
 	@Override
