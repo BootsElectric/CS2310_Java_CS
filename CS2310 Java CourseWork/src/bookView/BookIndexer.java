@@ -59,9 +59,9 @@ public class BookIndexer {
 	/**
 	 * Files holding the books so that relative path can be used.
 	 */
-	private File emma = new File("data\\emmaEd11.txt");
-	private File pandp = new File("data\\pandpEd12.txt");
-	private File mansfieldPark = new File("data\\mansfieldParkEd10.txt");
+	private File emma = new File("data/emmaEd11.txt");
+	private File pandp = new File("data/pandpEd12.txt");
+	private File mansfieldPark = new File("data/mansfieldParkEd10.txt");
 	
 	/**
 	 * Constructor initialises the word indexes and id indexes to be the indexed files.
