@@ -1,5 +1,6 @@
 package bookView;
 
+<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Hashtable;
@@ -59,5 +60,11 @@ public class Main {
 //		System.out.println(total);
 //		long end = (new Date()).getTime();
 //		System.out.println(end - start);
+=======
+public class Main {
+	
+	public static void main(String[] args){
+		TUI userInterface = new TUI(new ControllerManager());
+>>>>>>> master
 	}
 }
