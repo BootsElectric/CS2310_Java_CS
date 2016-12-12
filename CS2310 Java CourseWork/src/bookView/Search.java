@@ -104,6 +104,7 @@ public class Search {
 	 */
 	public String getWiderContext(String kwicID){
 		
+
 		if(widerContextSearchMap.containsKey(Integer.parseInt(kwicID))){
 			return widerContextSearchMap.get(Integer.parseInt(kwicID)).toString();
 		}else{
