@@ -54,6 +54,8 @@ public class BookIndexer {
 	 */
 	private String line = "";
 	
+	private int wordCount = 0;
+	
 	/**
 	 * Files holding the books so that relative path can be used.
 	 */
@@ -66,9 +68,9 @@ public class BookIndexer {
 	 */
 	public BookIndexer(){
 		try{
-			Map[] emmaHashtables = index(emma);
-			Map[] pandpHashtables = index(pandp);
-			Map[] mansfieldParkHashtables = index(mansfieldPark);
+			Map[] emmaHashtables = index(emma, wordCount);
+			Map[] pandpHashtables = index(pandp, wordCount);
+			Map[] mansfieldParkHashtables = index(mansfieldPark, wordCount);
 		
 		emmaWordIndex = emmaHashtables[0];
 		pandPWordIndex = pandpHashtables[0];
@@ -133,7 +135,7 @@ public class BookIndexer {
 	 * @param file - The file to index
 	 * @return An array of Map objects containing two HashMaps
 	 */
-	public Map[] index(File file){
+	public Map[] index(File file, int wordCount){
 		
 		Map[] hashMaps = new HashMap[2];
 		Map<String, ArrayList<WordCoordinate>> wordIndex = new HashMap<>();
@@ -147,7 +149,7 @@ public class BookIndexer {
 			int chapterNumber = 0;
 			int paragraphNumber = 1;
 			int volumeNumber = 0;
-			int wordID = 0;
+			int wordID = wordCount;
 			while((line = br.readLine()) != null){
 				
 				int wordNumber = 0;
@@ -176,6 +178,7 @@ public class BookIndexer {
 								new WordCoordinate(wordID, wordNumber, lineNumber, paragraphNumber, chapterNumber, volumeNumber, file));
 						IDIndex.put(wordID, currentLineWords[wordNumber]);
 						wordID++;
+						wordCount++;
 					}
 					wordNumber++;
 					
@@ -199,13 +202,13 @@ public class BookIndexer {
  *
  *******************************************************************************************************************************************/
 	public class WordCoordinate{
-		int ID;
-		int lineNumber;
-		int wordNumber;
-		int paragraphNumber;
-		int chapter;
-		int volume;
-		File title;
+		private int ID;
+		private int lineNumber;
+		private int wordNumber;
+		private int paragraphNumber;
+		private int chapter;
+		private int volume;
+		private File title;
 		
 		/**
 		 * Constructs a new WordCoordinate 

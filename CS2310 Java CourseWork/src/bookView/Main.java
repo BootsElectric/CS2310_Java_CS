@@ -60,5 +60,8 @@ public class Main {
 //		System.out.println(total);
 //		long end = (new Date()).getTime();
 //		System.out.println(end - start);
+		
+		Search s = new Search(bi);
+		System.out.print(s.search("man"));
 	}
 }

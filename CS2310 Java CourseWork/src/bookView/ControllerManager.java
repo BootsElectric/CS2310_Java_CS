@@ -3,9 +3,11 @@ package bookView;
 public class ControllerManager implements Controller {
 	
 	private Search search;
+	private BookIndexer bookIndexer;
 	
 	public ControllerManager(){
-		search = new Search();
+		bookIndexer = new BookIndexer();
+		search = new Search(bookIndexer);
 	}
 	
 	@Override

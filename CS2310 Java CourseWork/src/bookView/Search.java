@@ -4,54 +4,48 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Map;
+
+import bookView.BookIndexer.WordCoordinate;
 
 public class Search {
 
-	double count = 0, countBuffer = 0, countLine = 0;
-	String lineNumber = "";
-	String filePath = "C:\\Users\\Will\\Documents\\GitHub\\CS2310 Java CourseWork\\data\\emmaEd11.txt";
-	BufferedReader br;
-	String line = "";
+	private BookIndexer bi;
+	
+	public Search(BookIndexer bi){
+		this.bi = bi;
+	}
 	
 	public String search(String inputSearch, int contextSize){
 		return null;
 	}
 
 	public String search(String inputSearch) {
-		try {
-			br = new BufferedReader(new FileReader(filePath));
-			try {
-				while ((line = br.readLine()) != null) {
-					countLine++;
-					// System.out.println(line);
-					String[] words = line.split(" ");
-
-					for (String word : words) {
-						if (word.equals(inputSearch)) {
-							count++;
-							countBuffer++;
-						}
-					}
-
-					if (countBuffer > 0) {
-						countBuffer = 0;
-						lineNumber += countLine + ",";
-					}
-
+		StringBuffer sb = new StringBuffer();
+		
+		Map<String, ArrayList<WordCoordinate>> emmaWord = bi.getEmmaIndex();
+		Map<Integer, String> emmaID = bi.getEmmaIDIndex();
+		ArrayList<WordCoordinate> contexts = emmaWord.get(inputSearch);
+		
+		for(WordCoordinate wc : contexts){
+			int wordID = wc.getID();
+			int kwicID = contexts.indexOf(wc);
+			
+			sb.append("ID ");
+			sb.append(kwicID);
+			sb.append(": ");
+			for(int i = wordID -10; i <= wordID + 10; i++){
+				String word = emmaID.get(i);
+				if (! word.equals("CHAPTER") && ! word.equals("VOLUME")){
+					sb.append(word);
+					sb.append(" ");
 				}
-				br.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			sb.append("\n");
 		}
-
-		System.out.println("Times found at--" + count);
-		System.out.println("Word found at--" + lineNumber);
-		return "";
+		
+		return sb.toString();
 	}
 
 }
