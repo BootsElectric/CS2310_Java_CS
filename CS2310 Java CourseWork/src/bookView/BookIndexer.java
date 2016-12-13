@@ -17,54 +17,54 @@ import java.util.Map;
  *
  */
 public class BookIndexer {
-	
+
 	/**
 	 * Map pairing the words of Emma with WordCoordinates.
 	 */
 	private Map<String, ArrayList<WordCoordinate>> emmaWordIndex;
-	
+
 	/**
 	 * Map pairing the words of Pride And Prejudice with WordCoordinates.
 	 */
 	private Map<String, ArrayList<WordCoordinate>> pAndPWordIndex;
-	
+
 	/**
 	 * Map pairing the words of Mansfield Park with WordCoordinates.
 	 */
 	private Map<String, ArrayList<WordCoordinate>> mansfieldParkWordIndex;
-	
+
 	/**
 	 * Maps pairing word ID with the words from Emma.
 	 */
 	private Map<Integer, String> emmaIDIndex;
-	
+
 	/**
 	 * Maps pairing word ID with the words from Pride And Prejudice.
 	 */
 	private Map<Integer, String> pAndPIDIndex;
-	
+
 	/**
 	 * Maps pairing word ID with the words from Mansfield Park.
 	 */
 
 	private Map<Integer, String> mansfieldParkIDIndex;
-	
+
 	/**
 	 * The current line the BufferReader of index();
 
 	 * @see {@link bookView.BookIndexer.index(File)}
 	 */
 	private String line = "";
-	
+
 	private int wordCount = 0;
-	
+
 	/**
 	 * Files holding the books so that relative path can be used.
 	 */
 	private File emma = new File("data/emmaEd11.txt");
 	private File pandp = new File("data/pandpEd12.txt");
 	private File mansfieldPark = new File("data/mansfieldParkEd10.txt");
-	
+
 	/**
 	 * Constructor initialises the word indexes and id indexes to be the indexed files.
 	 */
@@ -76,9 +76,9 @@ public class BookIndexer {
 		emmaIDIndex = indexID(emma);
 		pAndPIDIndex = indexID(pandp);
 		mansfieldParkIDIndex = indexID(mansfieldPark);
-		
+
 	}
-	
+
 	/**
 	 * @return emmaWordIndex
 	 */
@@ -86,14 +86,14 @@ public class BookIndexer {
 	public Map<String, ArrayList<WordCoordinate>> getEmmaIndex(){
 		return emmaWordIndex;
 	}
-	
+
 	/**
 	 * @return pandPWordIndex
 	 */
 	public Map<String, ArrayList<WordCoordinate>> getPandPIndex(){
 		return pAndPWordIndex;
 	}
-	
+
 	/**
 	 * @return mansfieldParkWordIndex
 	 */
@@ -101,7 +101,7 @@ public class BookIndexer {
 	public Map<String, ArrayList<WordCoordinate>> getMansfieldParkIndex(){
 		return mansfieldParkWordIndex;
 	}
-	
+
 	/**
 	 * @return emmaIDIndex
 	 */
@@ -115,14 +115,14 @@ public class BookIndexer {
 	public Map<Integer, String> getPandPIDIndex(){
 		return pAndPIDIndex;
 	}
-	
+
 	/**
 	 * @return mansfieldParkIDIndex
 	 */
 	public Map<Integer, String> getMansfiledParkIDIndex(){
 		return mansfieldParkIDIndex;
 	}
-	
+
 	/**
 	 * Indexes files to two Maps. First words to WordCoordinates then wordIDs to words.
 	 * <p>
@@ -187,14 +187,12 @@ public class BookIndexer {
 
 		return wordIndex;
 	}
-	
+
 	private Map<Integer, String> indexID(File file){
 		Map<Integer, String> IDIndex = new HashMap<>();
 
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(file.getAbsolutePath()));
-			int lineNumber = 0;
-			int paragraphNumber = 1;
 			while((line = br.readLine()) != null){
 
 				int wordNumber = 0;
@@ -204,7 +202,6 @@ public class BookIndexer {
 				while (wordNumber < currentLineWords.length){
 
 					if (currentLineWords[wordNumber].equals("")){
-						paragraphNumber++;
 					}else{
 						IDIndex.put(wordCount, currentLineWords[wordNumber]);
 						wordCount++;
@@ -212,7 +209,6 @@ public class BookIndexer {
 					wordNumber++;
 
 				}
-				lineNumber++;
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -221,14 +217,14 @@ public class BookIndexer {
 		}
 		return IDIndex;
 	}
-/*******************************************************************************************************************************************
- * Inner Class -- WordCoordinate
- * <p>
- * This class holds all of the required information to find the wider context of a word.
- * </p>
- * @author Will
- *
- *******************************************************************************************************************************************/
+	/*******************************************************************************************************************************************
+	 * Inner Class -- WordCoordinate
+	 * <p>
+	 * This class holds all of the required information to find the wider context of a word.
+	 * </p>
+	 * @author Will
+	 *
+	 *******************************************************************************************************************************************/
 	public class WordCoordinate{
 		private int ID;
 		private int lineNumber;
@@ -237,7 +233,7 @@ public class BookIndexer {
 		private int chapter;
 		private int volume;
 		private File title;
-		
+
 		/**
 		 * Constructs a new WordCoordinate 
 		 * @param ID - the position of the word in the text it originates from
@@ -257,35 +253,35 @@ public class BookIndexer {
 			this.volume = volume;
 			this.title = title;
 		}
-		
+
 		public int getID(){
 			return ID;
 		}
-		
+
 		public int getWordNumber(){
 			return wordNumber;
 		}
-		
+
 		public int getLineNumber(){
 			return lineNumber;
 		}
-		
+
 		public int getParagraphNumber(){
 			return paragraphNumber;
 		}
-		
+
 		public int getChapter(){
 			return chapter;
 		}
-		
+
 		public int getVolume(){
 			return volume;
 		}
-		
+
 		public String getTitle(){
 			return title.getName();
 		}
-		
+
 		/**
 		 * Returns a string formatted thusly:
 		 * <ul>
@@ -300,12 +296,12 @@ public class BookIndexer {
 		 */
 		public String toString(){
 			StringBuffer sb = new StringBuffer();
-			
+
 			sb.append("Title: ");
 			sb.append(getTitle());
 			if(volume > 0){
-			sb.append("\nVolume: ");
-			sb.append(getVolume());
+				sb.append("\nVolume: ");
+				sb.append(getVolume());
 			}
 			sb.append("\nChapter: ");
 			sb.append(getChapter());
@@ -318,12 +314,12 @@ public class BookIndexer {
 			sb.append("\nWord ID: ");
 			sb.append(getID());
 			sb.append("\n");
-			
+
 			return sb.toString();
 		}
 	}
 
-/*******************************************************************************************************************************************
-* End of Inner Class -- WordCoordinte 
-********************************************************************************************************************************************/
+	/*******************************************************************************************************************************************
+	 * End of Inner Class -- WordCoordinte 
+	 ********************************************************************************************************************************************/
 }
