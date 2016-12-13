@@ -46,10 +46,12 @@ public class BookIndexer {
 	/**
 	 * Maps pairing word ID with the words from Mansfield Park.
 	 */
+
 	private Map<Integer, String> mansfieldParkIDIndex;
 	
 	/**
 	 * The current line the BufferReader of index();
+
 	 * @see {@link bookView.BookIndexer.index(File)}
 	 */
 	private String line = "";
@@ -74,11 +76,13 @@ public class BookIndexer {
 		emmaIDIndex = indexID(emma);
 		pAndPIDIndex = indexID(pandp);
 		mansfieldParkIDIndex = indexID(mansfieldPark);
+		
 	}
 	
 	/**
 	 * @return emmaWordIndex
 	 */
+
 	public Map<String, ArrayList<WordCoordinate>> getEmmaIndex(){
 		return emmaWordIndex;
 	}
@@ -93,6 +97,7 @@ public class BookIndexer {
 	/**
 	 * @return mansfieldParkWordIndex
 	 */
+
 	public Map<String, ArrayList<WordCoordinate>> getMansfieldParkIndex(){
 		return mansfieldParkWordIndex;
 	}
@@ -103,7 +108,7 @@ public class BookIndexer {
 	public Map<Integer, String> getEmmaIDIndex(){
 		return emmaIDIndex;
 	}
-	
+
 	/**
 	 * @return pandpIDIndex
 	 */
@@ -136,6 +141,7 @@ public class BookIndexer {
 			int chapterNumber = 0;
 			int paragraphNumber = 1;
 			int volumeNumber = 0;
+
 			int wordID = wordCount;
 			while((line = br.readLine()) != null){
 
@@ -163,6 +169,7 @@ public class BookIndexer {
 
 						wordIndex.get(currentLineWords[wordNumber]).add(
 								new WordCoordinate(wordID, wordNumber, lineNumber, paragraphNumber, chapterNumber, volumeNumber, file));
+
 						wordID++;
 						wordCount++;
 					}
@@ -171,11 +178,13 @@ public class BookIndexer {
 				}
 				lineNumber++;
 			}
+
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
 		return wordIndex;
 	}
 	
@@ -313,7 +322,8 @@ public class BookIndexer {
 			return sb.toString();
 		}
 	}
+
 /*******************************************************************************************************************************************
-* End of Inner Class -- WordCoordinte
+* End of Inner Class -- WordCoordinte 
 ********************************************************************************************************************************************/
 }
