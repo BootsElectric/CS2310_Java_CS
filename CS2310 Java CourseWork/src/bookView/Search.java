@@ -79,7 +79,7 @@ public class Search {
 
 		WIC = new HashMap<>();
 		//If there are any results:
-		if(!contexts.equals(null)){
+		if(!contexts.isEmpty()){
 			//Get every word in the resulting ArrayList.
 			for(WordCoordinate w : contexts){
 				int stringID = w.getID();
