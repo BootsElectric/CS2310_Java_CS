@@ -85,7 +85,8 @@ public class Search {
 				int stringID = w.getID();
 				int kwicID = contexts.indexOf(w);
 				WIC.put(kwicID, w);
-
+				
+				sb.append("ID ");
 				sb.append(kwicID);
 				sb.append(":\t");
 
